@@ -2,39 +2,22 @@ public class Game {
     private Deck deck;
     private Player playerOne;
     private Player playerTwo;
-    private Player turn;
+    private Player roundWinner;
     private int maxRounds;
-    private int deckSize;
 
-    public Game(Player p1,Player p2){
-        deck=new Deck();
+
+
+    public Game(Player p1,Player p2,int maxRounds,Deck mazo){
+        deck=mazo;
         playerOne=p1;
         playerTwo=p2;
-        deckSize=20;
-        maxRounds=100;
-        turn=p1;
-    }
-
-    public Game(Player p1,Player p2,int maxRounds){
-        deck=new Deck();
-        playerOne=p1;
-        playerTwo=p2;
-        deckSize=20;
         this.maxRounds=maxRounds;
-        turn=p1;
+        roundWinner=p1;
     }
 
-    public Game(Player p1,Player p2,int maxRounds,int deckSize){
-        deck=new Deck();
-        playerOne=p1;
-        playerTwo=p2;
-        this.deckSize=deckSize;
-        this.maxRounds=maxRounds;
-        turn=p1;
-    }
+
 
     public void startGame(){
-        LoadDeck();
         distributeDeck();
         play();
     }
@@ -46,29 +29,17 @@ public class Game {
             i++;
             System.out.println("------ Ronda "+i+" ------");
             runRound();
-            i++;
         }
 
         checkWinner(i);
 
     }
 
-    private void LoadDeck(){
-        for(int i=0; i<deckSize;i++){
-            String nombre= "Carta Numero: "+String.valueOf(i+1);
-            Atribute atribute1=new Atribute("Fuerza",randomValue());
-            Atribute atribute2=new Atribute("Agilidad",randomValue());
-            Atribute atribute3=new Atribute("Carisma",randomValue());
-            Atribute atribute4=new Atribute("Velocidad",randomValue());
-            Atribute atribute5=new Atribute("Peso",randomValue());
 
-            Card card= new Card(nombre,atribute1,atribute2,atribute3,atribute4,atribute5);
-            deck.add(card);
-        }
-    }
 
     private void distributeDeck(){
-        for(int i=0;i<deckSize;i++){
+        int totalCards=deck.size();
+        for(int i=0;i<totalCards;i++){
             if(i%2==0){
                 playerOne.addCard(deck.topCard());
                 deck.removeCard();
@@ -79,52 +50,57 @@ public class Game {
         }
     }
 
-    private int randomValue(){
-        return (int) (Math.random()*5)+1;
-    }
+
 
     private void runRound(){
-        int atribute= randomValue();
-        if(turn.equals(playerOne)){
-            System.out.println("El jugador "+playerOne.getPlayerName()+" selecciona competir por el atributo "+playerOne.topCard().selectAtribute(atribute).getName());
-            System.out.println("La carta de "+playerOne.getPlayerName()+" es "+playerOne.topCard().getName()+" con "+playerOne.topCard().selectAtribute(atribute).getName()+" "+playerOne.topCard().selectAtribute(atribute).getValue());
-            System.out.println("La carta de "+playerTwo.getPlayerName()+" es "+playerTwo.topCard().getName()+" con "+playerTwo.topCard().selectAtribute(atribute).getName()+" "+playerTwo.topCard().selectAtribute(atribute).getValue());
-            fight(atribute);
-
+        Player roundLoser;
+        Atribute roundWinnerAtribute = roundWinner.selectRandomAtribute(roundWinner.topCard());
+        System.out.println("El jugador "+roundWinner.getPlayerName()+" selecciona competir por el atributo "+roundWinnerAtribute.getName());
+        System.out.println("La carta de "+roundWinner.getPlayerName()+" es "+roundWinner.topCard().getName()+" con "+roundWinnerAtribute.getName()+" "+roundWinnerAtribute.getValue());
+        if(roundWinner.equals(playerOne)){
+            roundLoser=playerTwo;
+            Atribute roundLoserAtribute = roundLoser.topCard().getAtributebyName(roundWinnerAtribute.getName());
+            System.out.println("La carta de "+roundLoser.getPlayerName()+" es "+roundLoser.topCard().getName()+" con "+ roundLoserAtribute.getName() +" "+roundLoserAtribute.getValue());
+            fight(roundWinnerAtribute,roundLoser,roundLoserAtribute);
         }else{
-            System.out.println("El jugador "+playerTwo.getPlayerName()+" selecciona competir por el atributo "+playerTwo.topCard().selectAtribute(atribute).getName());
-            System.out.println("La carta de "+playerOne.getPlayerName()+" es "+playerOne.topCard().getName()+" con "+playerOne.topCard().selectAtribute(atribute).getName()+" "+playerOne.topCard().selectAtribute(atribute).getValue());
-            System.out.println("La carta de "+playerTwo.getPlayerName()+" es "+playerTwo.topCard().getName()+" con "+playerTwo.topCard().selectAtribute(atribute).getName()+" "+playerTwo.topCard().selectAtribute(atribute).getValue());
-            fight(atribute);
-
+            roundLoser=playerOne;
+            Atribute roundLoserAtribute = roundLoser.topCard().getAtributebyName(roundWinnerAtribute.getName());
+            System.out.println("La carta de "+roundLoser.getPlayerName()+" es "+roundLoser.topCard().getName()+" con "+roundLoserAtribute.getName() +" "+roundLoserAtribute.getValue());
+            fight(roundWinnerAtribute,roundLoser,roundLoserAtribute);
         }
 
     }
 
-    private void fight(int atribute){
-        if(playerOne.topCard().selectAtribute(atribute).getValue()>playerTwo.topCard().selectAtribute(atribute).getValue()){
-            playerOne.addCard(playerOne.topCard());
-            playerOne.addCard(playerTwo.topCard());
-            playerTwo.removeTopCard();
-            playerOne.removeTopCard();
-            System.out.println("Gana la ronda "+playerOne.getPlayerName());
+    private void fight(Atribute roundWinnerAtribute,Player roundLoser,Atribute roundLoserAtribute){
+        if(roundWinnerAtribute.getValue()>roundLoserAtribute.getValue()){
+            resolveFight(roundLoser,true);
+            System.out.println("Gana la ronda "+roundWinner.getPlayerName());
             System.out.println(playerOne.getPlayerName()+" posee ahora "+playerOne.getTotalCards()+" cartas y "+playerTwo.getPlayerName()+" posee ahora "+playerTwo.getTotalCards()+" cartas");
-
-        }else if(playerOne.topCard().selectAtribute(atribute).getValue()<playerTwo.topCard().selectAtribute(atribute).getValue()){
-            playerTwo.addCard(playerTwo.topCard());
-            playerTwo.addCard(playerOne.topCard());
-            playerOne.removeTopCard();
-            playerTwo.removeTopCard();
-            System.out.println("Gana la ronda "+playerTwo.getPlayerName());
+        }else if(roundWinnerAtribute.getValue()<roundLoserAtribute.getValue()){
+            Player aux = roundLoser;
+            roundLoser=roundWinner;
+            roundWinner=aux;
+            resolveFight(roundLoser,true);
+            System.out.println("Gana la ronda "+roundWinner.getPlayerName());
             System.out.println(playerOne.getPlayerName()+" posee ahora "+playerOne.getTotalCards()+" cartas y "+playerTwo.getPlayerName()+" posee ahora "+playerTwo.getTotalCards()+" cartas");
-
         }else{
             System.out.println("La ronda fue un empate");
-            playerTwo.addCard(playerTwo.topCard());
-            playerOne.addCard(playerOne.topCard());
-            playerOne.removeTopCard();
-            playerTwo.removeTopCard();
+            resolveFight(roundLoser,false);
             System.out.println(playerOne.getPlayerName()+" posee ahora "+playerOne.getTotalCards()+" cartas y "+playerTwo.getPlayerName()+" posee ahora "+playerTwo.getTotalCards()+" cartas");
+        }
+    }
+
+    private void resolveFight(Player roundLoser,boolean winner){
+        if (winner){
+            roundWinner.addCard(roundWinner.topCard());
+            roundWinner.addCard(roundLoser.topCard());
+            roundLoser.removeTopCard();
+            roundWinner.removeTopCard();
+        }else{
+            roundWinner.addCard(roundWinner.topCard());
+            roundLoser.addCard(roundLoser.topCard());
+            roundWinner.removeTopCard();
+            roundLoser.removeTopCard();
         }
     }
 

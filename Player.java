@@ -2,21 +2,15 @@ public class Player {
 
     private String playerName;
     private Deck deck;
-    private int totalCards;
 
 
     public Player(){
         deck = new Deck();
-        this.totalCards=0;
     }
 
     public void addCard(Card c){
         deck.add(c);
-        totalCards++;
     }
-
-
-
 
     public Card topCard(){
         return deck.topCard();
@@ -24,11 +18,15 @@ public class Player {
 
     public void removeTopCard(){
         deck.removeCard();
-        totalCards--;
+    }
+
+    public Atribute selectRandomAtribute(Card c){
+        int randomNumber= (int)Math.floor(Math.random()*c.getNumberOfAtributes());
+        return c.getAtribute(randomNumber);
     }
 
     public int getTotalCards() {
-        return totalCards;
+        return deck.size();
     }
 
     public String getPlayerName() {

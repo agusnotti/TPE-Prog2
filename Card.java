@@ -1,67 +1,50 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Card {
     private String name;
-    private Atribute strength;
-    private Atribute agility;
-    private Atribute charisma;
-    private Atribute speed;
-    private Atribute weigth;
+    private List<Atribute> atributes;
 
-    public Card(String name, Atribute strength, Atribute agility, Atribute charisma, Atribute speed, Atribute weigth) {
+    public Card(String name) {
         this.name = name;
-        this.strength = strength;
-        this.agility = agility;
-        this.charisma = charisma;
-        this.speed = speed;
-        this.weigth = weigth;
+        atributes= new ArrayList<>();
+    }
+
+    public void addAtribute(Atribute a){
+        atributes.add(a);
+    }
+
+    public int getNumberOfAtributes(){
+        return atributes.size();
+    }
+
+    public Atribute getAtribute(int position){
+        if(position<atributes.size()){
+            return atributes.get(position);
+        }else{
+            return null;
+        }
+    }
+
+    public Atribute getAtributebyName(String name){
+        for(int i=0; i< atributes.size();i++){
+            if(atributes.get(i).getName().equals(name)){
+                return atributes.get(i);
+            }
+        }
+        return null;
     }
 
     public Atribute selectAtribute(int i) {
-        switch (i) {
-            case 1:
-                return getStrength();
-
-            case 2:
-                return getAgility();
-
-            case 3:
-                return getCharisma();
-
-            case 4:
-                return getSpeed();
-
-            case 5:
-                return getWeigth();
-
-            default:
-                return null;
-        }
-
-
+       int random=(int) Math.floor((Math.random()*atributes.size()));
+       return atributes.get((random));
     }
 
     public String getName() {
         return name;
     }
 
-    public Atribute getStrength() {
-        return strength;
-    }
 
-    public Atribute getAgility() {
-        return agility;
-    }
-
-    public Atribute getCharisma() {
-        return charisma;
-    }
-
-    public Atribute getSpeed() {
-        return speed;
-    }
-
-    public Atribute getWeigth() {
-        return weigth;
-    }
 
 }
 
