@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Deck {
 
@@ -29,15 +28,13 @@ public class Deck {
 
     // DETERMINA SI UNA CARTA ES VALIDA PARA EL MAZO
     public boolean isValid(Card c){
-               if(c.sameAtributes(cartaModelo)){ // COMPARA UNA CARTA CUALQUIERA CON LA MODELO (ATRIBUTOS)
-                   return true;
-               }else{
-                   return false;
-               }
+        if(c.sameAtributes(cartaModelo)){ // COMPARA UNA CARTA CUALQUIERA CON LA MODELO (ATRIBUTOS)
+            return true;
+        }else{
+            return false;
+        }
 
     }
-
-
 
     //DEVUELVE EL TAMAÑO DEL MAZO
     public int size(){
