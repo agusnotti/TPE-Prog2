@@ -25,8 +25,6 @@ public class Main {
 
         ArrayList<String> logs = new ArrayList<>();
 
-
-
         //----CARTA MODELO---//
 
 
@@ -42,18 +40,18 @@ public class Main {
         Game game= new Game(j1,j2,500,mazo);
 
         /*ATRIBUTOS DE POCIONES*/
-        Atribute atribute1= new Atribute("all",20);
-        Atribute atribute2= new Atribute("all",25);
-        Atribute atribute3= new Atribute("all",50);
-        Atribute atribute4= new Atribute("all",70);
-        Atribute atribute5= new Atribute("all",25);
-        Atribute atribute6= new Atribute("all",30);
-        Atribute atribute7= new Atribute("all",55);
-        Atribute atribute8= new Atribute("all",75);
-        Atribute atribute9= new Atribute("all",4);
-        Atribute atribute10= new Atribute("all",3);
-        Atribute atribute11= new Atribute("all",23);
-        Atribute atribute12= new Atribute("all",7);
+        Atribute atribute1= new Atribute(20);
+        Atribute atribute2= new Atribute(25);
+        Atribute atribute3= new Atribute(0);
+        Atribute atribute4= new Atribute(70);
+        Atribute atribute5= new Atribute(25);
+        Atribute atribute6= new Atribute(30);
+        Atribute atribute7= new Atribute(55);
+        Atribute atribute8= new Atribute(75);
+        Atribute atribute9= new Atribute(4);
+        Atribute atribute10= new Atribute(3);
+        Atribute atribute11= new Atribute(23);
+        Atribute atribute12= new Atribute(7);
         Atribute atribute13= new Atribute("Fuerza",35);
         Atribute atribute14= new Atribute("Fuerza",45);
         Atribute atribute15= new Atribute("Peso",43);
@@ -87,6 +85,7 @@ public class Main {
         cocktail2.addPotion(potion2);
         cocktail2.addPotion(potion14);
         cocktail2.addPotion(potion16);
+        cocktail2.addPotion(cocktail1);
 
 
         game.addPotion(potion1);

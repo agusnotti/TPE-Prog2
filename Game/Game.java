@@ -84,14 +84,13 @@ public class Game {
 
     private void fight(String roundWinnerAtribute) {
         //SI J1 LE GANA A J2
-        Atribute p1=playerOne.topCard().getAtribute(roundWinnerAtribute);
-        Atribute p2=playerTwo.topCard().getAtribute(roundWinnerAtribute);
-        if (playerOne.topCard().getAppliedEffects(p1.getName(),p1.getValue()) > playerTwo.topCard().getAppliedEffects(p2.getName(),p2.getValue())) {
+
+        if (playerOne.topCard().getValue(roundWinnerAtribute) > playerTwo.topCard().getValue(roundWinnerAtribute)) {
             //RESUELVO LA PELEA ANUNCIANDO QUE HUBO UN GANADOR CON TRUE
             resolveFightWinner(playerOne, playerTwo);
             logs.add("Gana la ronda " + playerOne.getPlayerName());
             logs.add(playerOne.getPlayerName() + " posee ahora " + playerOne.getTotalCards() + " cartas y " + playerTwo.getPlayerName() + " posee ahora " + playerTwo.getTotalCards() + " cartas");
-        } else if (playerOne.topCard().getAppliedEffects(p1.getName(),p1.getValue()) < playerTwo.topCard().getAppliedEffects(p2.getName(),p2.getValue())) {
+        } else if (playerOne.topCard().getValue(roundWinnerAtribute) < playerTwo.topCard().getValue(roundWinnerAtribute)) {
             //SI J2 LE GANA A J1
             // roundWinner pasa a ser PlayerTwo
             resolveFightWinner(playerTwo, playerOne);

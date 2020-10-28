@@ -13,7 +13,7 @@ public class IncreaseAtributes extends Potion {
 
     @Override
     public int applyEffects(String atributeName, int atributeValue) {
-        if ((this.getAtributeName().toLowerCase().equals("all")) ||
+        if ((this.getAtributeName()==null) ||
                 atributeName.toLowerCase().equals(this.getAtributeName().toLowerCase())) {
             return (atributeValue+atributeValue*this.getAtributeValue()/100);
         }else{

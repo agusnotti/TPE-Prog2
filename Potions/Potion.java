@@ -31,7 +31,7 @@ public abstract class Potion implements ElementPotion {
 
     @Override
     public String getAppliedPotions(String atributeName) {
-        if ((ingredients.getName().toLowerCase().equals("all")) ||
+        if ((ingredients.getName()==null)||
                 atributeName.toLowerCase().equals(ingredients.getName().toLowerCase())) {
             return this.getName()+", ";
         }

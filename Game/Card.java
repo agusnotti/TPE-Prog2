@@ -42,12 +42,18 @@ public class Card {
         }
     }
 
-    public int getAppliedEffects(String atributeName,int atributeValue){
+    public int getValue(String atributeName){
+        Atribute a1=this.getAtribute(atributeName);
         if(potion!=null){
-            return potion.applyEffects(atributeName,atributeValue);
+            return getAppliedEffects(a1.getName(),a1.getValue());
         }else{
-            return atributeValue;
+            return a1.getValue();
         }
+
+    }
+
+    public int getAppliedEffects(String atributeName,int atributeValue){
+            return potion.applyEffects(atributeName,atributeValue);
     }
 
     public String appliedPotion(String atributeName){

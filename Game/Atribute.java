@@ -10,6 +10,11 @@ public class Atribute {
         this.value=value;
     }
 
+    public Atribute(int value){
+        this.name=null;
+        this.value=value;
+    }
+
     public String getName() {
         return name;
     }
